@@ -1,22 +1,3 @@
-def removeStopWords(text):
-	#English stop words supported by the nltk library
-	stopWords = ['i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves', 'you', "you're", "you've", "you'll", "you'd", 'your', 'yours', 'yourself', 'yourselves', 'he', 'him', 'his', 'himself', 'she', "she's", 'her', 'hers', 'herself', 'it', "it's", 'its', 'itself', 'they', 'them', 'their', 'theirs', 'themselves', 'what', 'which', 'who', 'whom', 'this', 'that', "that'll", 'these', 'those', 'am', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'having', 'do', 'does', 'did', 'doing', 'a', 'an', 'the', 'and', 'but', 'if', 'or', 'because', 'as', 'until', 'while', 'of', 'at', 'by', 'for', 'with', 'about', 'against', 'between', 'into', 'through', 'during', 'before', 'after', 'above', 'below', 'to', 'from', 'up', 'down', 'in', 'out', 'on', 'off', 'over', 'under', 'again', 'further', 'then', 'once', 'here', 'there', 'when', 'where', 'why', 'how', 'all', 'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 'nor', 'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very', 's', 't', 'can', 'will', 'just', 'don', "don't", 'should', "should've", 'now', 'd', 'll', 'm', 'o', 're', 've', 'y', 'ain', 'aren', "aren't", 'couldn', "couldn't", 'didn', "didn't", 'doesn', "doesn't", 'hadn', "hadn't", 'hasn', "hasn't", 'haven', "haven't", 'isn', "isn't", 'ma', 'mightn', "mightn't", 'mustn', "mustn't", 'needn', "needn't", 'shan', "shan't", 'shouldn', "shouldn't", 'wasn', "wasn't", 'weren', "weren't", 'won', "won't", 'wouldn', "wouldn't"]
-	#split creates a list of words
-	words = text.split()
-
-	#For each word in the list check if it is a stop word
-	for w in words:
-		#if it is a stop word remove it from the list
-		if w in stopWords:
-			words.remove(w)
-	return words
-
-
-#p = "Nick likes to play football, however he is not too fond of tennis."
-#print(removeStopWords(p))
-
-
-
 #######################################################################
 ###################### USING NLTK LIBRARY #############################
 #######################################################################
@@ -34,17 +15,18 @@ def processText(text):
     	#if it is a stop word remove it from the list
     	if w in stopwords.words('english'):
     		words.remove(w)
-
     #instance of a stemmer
     stemmer = SnowballStemmer("english")
     stemWords = []
+
 
     #iterate over all tokenized words to stem and store in list
     for t in words:
     	stemWords.append(stemmer.stem(t))
 
     	#return the list of tokenized stem words of the text passed to the method
-    	return stemWords
+    return stemWords
 
-p = "Nick likes to play football, however he is not too fond of tennis."
-print(removeStopWords(p))
+#TEST
+p = "this is not the typical mel brooks film it was much less slapstick than most of his movies and actually had a plot that was followable leslie ann warren made the movie she is such a fantastic under rated actress there were some moments that could have been fleshed out a bit more and some scenes that could probably have been cut to make the room to do so but all in all this is worth the price to rent and see it the acting was good overall brooks himself did a good job without his characteristic speaking to directly to the audience again warren was the best actor in the movie but fume and sailor both played their parts well"
+print(processText(p))
