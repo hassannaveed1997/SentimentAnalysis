@@ -6,13 +6,64 @@ from nltk.corpus import stopwords
 from nltk.stem.snowball import SnowballStemmer
 import pandas as pd
 
-dataset = pd.read_csv(r'training.1600000.processed.noemoticon.csv')
 
-# This method takes a 
+#read data from .csv file
+dataset = pd.read_csv(r'training.1600000.processed.noemoticon.csv',encoding = "ISO-8859-1")
+
+# create data frame with only the sentiment label column and the text
+# sentiment labels: 0: Negative, 2: Neutral, 4: Positive. 
+df = pd.DataFrame(dataset)
+cols = [0,5]
+df = df[df.columns[cols]]
+
+df.columns = ["Sentiment", "Tweet"]
+
+# three lists to separate different sentiments
+pos = []
+neg = []
+neutral = []
+
+# the first 1279999 tweets (80%) are used to train the model.  
+trainLen = int((len(df)*0.8))
+
+#separate the three different sentiments into three different lists.
+for i in range(trainLen):
+    #if negative
+    if (int(df.loc[i,"Sentiment"]) == 0):
+        neg.append(str(df.loc[i,"Tweet"]))
+    #if neutral
+    elif (int(df.loc[i,"Sentiment"]) == 2):
+        neutral.append(str(df.loc[i,"Tweet"]))
+    #if positive
+    else:
+        pos.append(str(df.loc[i,"Tweet"]))
+
+#three lists to contain processed texts of different sentiments
+posList = []
+negList = []
+neutralList = []
+
+#Process text for each sentiment and store in appropriate list
+for j in range(len(pos)):
+    posList.append(processText(pos[i]))
+
+for j in range(len(neg)):
+    posList.append(processText(neg[i]))
+
+for j in range(len(neg)):
+    posList.append(processText(neg[i]))
+
+
 def processText(text):
 
+    # make a list of words split with spaces
     textList = text.split()
 
+    #convert all words to lower case
+    for i in range(len(textList)):
+        textList[i] = textList[i].lower()
+
+    #remove usernames, email addresses, websites and hastags
     for t in textList:
         if (deepClean(t)):
             textList.remove(t)
@@ -50,7 +101,7 @@ def deepClean(word):
     # '@',".edu", ".com" may represent usernames and email addresses 
     # '#' represents hastags for social media 
     # 'www.', "https://", ".edu", ".com" may represent websites
-    cleaners = ["@", "#", "www.", "https://", ".edu", ".com"]
+    cleaners = ["@", "#", "www.", "Www.", "https://", "Https://" ,  ".edu", ".com"]
 
     #check each subtring if contained in word
     for c in cleaners:
@@ -60,6 +111,6 @@ def deepClean(word):
 
     #else return False
     return False
-#TEST
-p = " @mahad this is not the typical mel www.pornhub.com brooks film it was much less slapstick than most of his movies and actually had a plot that was followable leslie ann warren made the movie she is such a fantastic under rated actress there were some moments that could have been fleshed out a bit more and some scenes that could probably have been cut to make the room to do so but all in all this is worth the price to rent and see it the acting was good overall brooks himself did a good job without his characteristic speaking to directly to the audience again warren was the best actor in the movie but fume and sailor both played their parts well"
-print(processText(p))
+
+
+
