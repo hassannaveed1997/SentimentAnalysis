@@ -45,14 +45,16 @@ neutralList = []
 
 #Process text for each sentiment and store in appropriate list
 for j in range(len(pos)):
-    posList.append(processText(pos[i]))
+    posList.append(processText(pos[j]))
 
 for j in range(len(neg)):
-    posList.append(processText(neg[i]))
+    negList.append(processText(neg[j]))
 
-for j in range(len(neg)):
-    posList.append(processText(neg[i]))
+for j in range(len(neutral)):
+    neutralList.append(processText(neutral[j]))
 
+#Create a list for training (need to add corresponding labelList)
+trainList = posList + negList + neutralList
 
 def processText(text):
 
