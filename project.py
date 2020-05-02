@@ -4,28 +4,12 @@ from tkinter import *
 import pickle
 from sklearn.linear_model import LogisticRegression
 from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.feature_extraction.text import TfidfVectorizer
-
+import textProcessing_methods
 #reads in the vectorized features and the logitic regression model
 
-(cv,lr)  = pickle.load(open('LR_model.pickle', 'rb')) 
-
-
-def processText(text):
-
-    #tokenize by words
-    words = word_tokenize(text)
-
-    #Lemmatize words and store in list
-    lemmatizer = WordNetLemmatizer()
-    
-    #modify each word to its lemmed version and lowercase it.
-    for i in range(len(words)):
-        words[i] = lemmatizer.lemmatize(words[i].lower())
-
-    text = ' '.join(words)
-    #return lemmed Words
-    return text
+(vectLR,lr)  = pickle.load(open('pickled_models/LR_model.pickle', 'rb')) 
+(vectSVM, svm) = pickle.load(open('pickled_models/svm_model.pickle', 'rb')) 
+(vectNB, nb) = pickle.load(open('pickled_models/nb_model.pickle', 'rb')) 
 
 
 #process the text thsat is input in the model
@@ -36,22 +20,53 @@ def analyzeSentiment(text,model):
 	pos_prob = 0 #probability of being positive
 	
 	#process the text to make it the same as the model
-	text = processText(text)
+	text = textProcessing_methods.processText(text)
 	
-	print('sentiment analyszed on \"' + text + "\" and model is: " + model)
+	#combine it back into a string instead of a list
+	text = ' '.join(text)
 
+	print('sentiment analyszed on \"' + text + "\" and model is: " + model)
 
 	if model == 'Logistic':
 
-		print('opened logistic regression')
 		input_text = [text] #for some reason count vectorization requires a list
-		input_text_vect = cv.transform(input_text)
+
+		#transform to a vector of features
+		input_text_vect = vectLR.transform(input_text)
+
+		#get the predicted probability. The result is a 2x1 matrix, we only need the positive probability
 		pos_prob = lr.predict_proba(input_text_vect)[0][1]
 		print('probability of positive is: ' + str(pos_prob))
 
 
 	elif model == 'SVM':
-		pass
+		input_text = [text] #for some reason count vectorization requires a list
+
+		#transform to a vector of features
+		input_text_vect = vectSVM.transform(input_text)
+
+		#get the predicted probability. The result is a 1x1 list, we only need the value
+		result = svm.predict(input_text_vect)[0]
+		print(result)
+
+		#result is a boolean of 1 or 0. We change our predicted probability accordingly
+		if result > 0.5:
+			pos_prob = 1
+		else:
+			pos_prob = 0
+
+	else: #naive bayes
+
+		input_text = [text] #for some reason count vectorization requires a list
+
+		#transform to a vector of features
+		input_text_vect = vectNB.transform(input_text)
+
+		#get the predicted probability. The result is a 2x1 matrix, we only need the positive probability
+		pos_prob = nb.predict_proba(input_text_vect)[0][1]
+		print('probability of positive is: ' + str(pos_prob))
+
+
 
 	if pos_prob > 0.5:
 		message.configure(background = 'sky blue')
@@ -59,7 +74,6 @@ def analyzeSentiment(text,model):
 		message.configure(background='indian red')
 	
 	return
-
 
 #when the enter button is pressed in the text
 def buttonPressed(event):
@@ -94,7 +108,7 @@ if __name__ == "__main__":
 	#create option button
 	var =StringVar(gui)
 	var.set("Logistic") #default is logistic
-	option = OptionMenu(gui, var, "Logistic", "SVM") #add more models if needed
+	option = OptionMenu(gui, var, "Logistic", "SVM", "Naive Bayes") #add more models if needed
 	option.pack(side = LEFT)
 
 	gui.mainloop()
