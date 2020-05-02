@@ -3,6 +3,7 @@
 #######################################################################
 from nltk.tokenize import word_tokenize
 from nltk.stem.snowball import SnowballStemmer
+from nltk.corpus import stopwords
 import pandas as pd
 
 def processText(text):
