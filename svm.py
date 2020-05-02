@@ -39,29 +39,24 @@ score = accuracy_score(Test_values, svm.predict(Test_text_vect))
 
 print(score)
 
-#Save SVM model
+
+#Now we will extract the features for analysis
+#create a dataframe containing coefficients from the regression and features from the count vectorizor
+features = pd.DataFrame(cv.get_feature_names(), svm.coef_.tolist()).reset_index()
+
+#rename the columns
+features.columns = ['coef','feature']
+
+#sort the features (most negative first)
+features = features.sort_values(by=['coef'])
+
+#print the 5 most positive and negative features
+print(features.head(5))
+print(features.tail(5))
+
+
+# Save SVM model
 if not os.path.exists("pickled_models"):
-    os.makedirs("pickled_models")
-    
-save_svm = open("pickled_models/svm_model.pickle", "wb")
-pickle.dump(svm, save_svm)
-save_svm.close()
-
-
-#Get features
-feature_to_coef = {
-    word: coef for word, coef in zip(
-        cv.get_feature_names(), svm.coef_[0]
-    )
-}
-for best_positive in sorted(
-    feature_to_coef.items(), 
-    key=lambda x: x[1], 
-    reverse=True)[:5]:
-    print (best_positive)
-    
-    
-for best_negative in sorted(
-    feature_to_coef.items(), 
-    key=lambda x: x[1])[:5]:
-    print (best_negative)
+	os.makedirs("pickled_models")
+	
+pickle.dump((cv,svm), open('pickled_models/svm_model.pickle', 'wb'))
