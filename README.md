@@ -15,7 +15,9 @@ sklearn
 pickle
 
 STEP 1) Preprocessing:
+
 Run textProcessing.py from the command line using:
+
   python3 textProcessing.py
   
 Make sure that textProcessing and the sentiment140 training csv file (from https://www.kaggle.com/kazanova/sentiment140) are in the same folder.
@@ -23,6 +25,7 @@ Make sure that textProcessing and the sentiment140 training csv file (from https
 The script will then output a file called cleaned_data.csv in the same folder
 
 STEP 2) Model Training:
+
 Ensuring you have cleaned_data.csv from the previous step in the same folder, do the following:
 - Run Logistic.py from the command line using:
   python3 Logistic.py
@@ -34,8 +37,11 @@ Ensuring you have cleaned_data.csv from the previous step in the same folder, do
 All of these use a count vectorizor with unigrams. Now you should have 3 distinct pickle files in the pickled_models folder.
 
 STEP 3) Running the classifier
+
 Ensuring you have the 3 pickle files in the pickled_models folder, do the following:
+
 - Run project.py from the command line using:
+
   python3 project.py
   
 -This will open up a GUI. On the left most side, there is a send message button. In the middle there is a textbox for entering text.
