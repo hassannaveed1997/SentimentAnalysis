@@ -7,6 +7,7 @@ from nltk.stem.porter import *
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import stopwords
 import pandas as pd
+from nltk.corpus import stopwords
 
 def processText(text):
 
@@ -26,10 +27,10 @@ def processText(text):
     #tokenize by words
     words = word_tokenize(text)
 
-    For each word in the list check if it is a stop word
-    for w in words:
-        if w in stopwords.words('english'):
-            words.remove(w)
+    #For each word in the list check if it is a stop word
+    #for w in words:
+    #    if w in stopwords.words('english'):
+    #        words.remove(w)
 
 
     #instance of a stemmer
@@ -43,7 +44,7 @@ def processText(text):
     #    stemWords.append(stemmer.stem(t))
 
     #Lemmatize words and store in list
-    lemmatizer = nltk.WordNetLemmatizer()
+    lemmatizer = WordNetLemmatizer()
     lemWords = []
     for w in words:
         lemWords.append(lemmatizer.lemmatize(w))
@@ -87,45 +88,6 @@ df = df[df.columns[cols]]
 
 df.columns = ["Sentiment", "Tweet"]
 
-# three lists to separate different sentiments
-pos = []
-neg = []
-neutral = []
-
-# the first 1279999 tweets (80%) are used to train the model.  
-trainLen = int((len(df)*0.8))
-
-#separate the three different sentiments into three different lists.
-for i in range(trainLen):
-    #if negative
-    if (int(df.loc[i,"Sentiment"]) == 0):
-        neg.append(str(df.loc[i,"Tweet"]))
-    #if neutral
-    elif (int(df.loc[i,"Sentiment"]) == 2):
-        neutral.append(str(df.loc[i,"Tweet"]))
-    #if positive
-    else:
-        pos.append(str(df.loc[i,"Tweet"]))
-
-#three lists to contain processed texts of different sentiments
-posList = []
-negList = []
-neutralList = []
-
-#Process text for each sentiment and store in appropriate list
-for j in range(len(pos)):
-    posList.append(processText(pos[j]))
-
-for j in range(len(neg)):
-    negList.append(processText(neg[j]))
-
-for j in range(len(neutral)):
-    neutralList.append(processText(neutral[j]))
-
-#Create a list for training (need to add corresponding labelList)
-trainList = posList + negList + neutralList
-
-
 #Hassan:
 #The following part is only intended to change the input format for the logistic regression
 #It uses the above methods for processing the data, then saves it.
@@ -135,7 +97,7 @@ trainList = posList + negList + neutralList
 
 #temporarily using one fraction of the cleaned data in the LR model to save time. 
 #replace dftemp with df in actual execution (can take upto one hour)
-dftemp = df.sample(frac = 0.02, random_state = 50)
+dftemp = df.sample(frac = 0.25, random_state = 50)
 
 sentiment = dftemp['Sentiment']
 tweet = dftemp['Tweet']
