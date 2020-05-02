@@ -1,5 +1,6 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics import accuracy_score
+from sklearn.metrics import classification_report
 from sklearn.linear_model import LogisticRegression
 from sklearn.feature_extraction.text import CountVectorizer
 import pickle
@@ -8,6 +9,9 @@ import numpy as np
 import pandas as pd
 import os
 import re
+
+#The script below runs a Linear Model using a unigram count vectorization approach.
+#intended to achieve a 79% accuracy on the test cases.
 
 #read in the dataset of cleaned tweets
 data = pd.read_csv('cleaned_data.csv')
@@ -35,7 +39,7 @@ train_text_vect = cv.transform(train_text.values.astype('U'))
 test_text_vect = cv.transform(test_text.values.astype('U'))
 
 
-c = 0.5 #hyperparameter value for the logistic regression
+c = 0.25 #hyperparameter value for the logistic regression
 
 #fit and train the logistic regression
 lr = LogisticRegression(C=c)
@@ -44,17 +48,7 @@ lr.fit(train_text_vect, train_values)
 #predict and score
 score = accuracy_score(test_values, lr.predict(test_text_vect))
 print ("Accuracy Score for C ="+"  str(c) "+" equals:   " + str(score))
-#for uncleaned data this is:
-# Accuracy Score for C = 0.01   equals:   
-# 0.789478125
-# Accuracy Score for C = 0.05   equals:   
-# 0.797440625
-# Accuracy Score for C = 0.1   equals:   
-# 0.799603125
-# Accuracy Score for C = 0.25   equals:   
-# 0.801228125
-# Accuracy Score for C = 0.5   equals:   
-# 0.801584375
+
 
 #Now we will extract the features for analysis
 #create a dataframe containing coefficients from the regression and features from the count vectorizor
@@ -70,10 +64,10 @@ features = features.sort_values(by=['coef'])
 print(features.head(5))
 print(features.tail(5))
 
+# Save vectorizer and LR model to a pickle file in the models folder
 if not os.path.exists("pickled_models"):
 	os.makedirs("pickled_models")
 
 pickle.dump((cv,lr), open('pickled_models/LR_model.pickle', 'wb'))
-#loaded_model = pickle.load(open(filename, 'rb'))
 
 
