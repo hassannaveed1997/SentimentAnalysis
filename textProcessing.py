@@ -4,6 +4,7 @@
 from nltk.tokenize import word_tokenize
 from nltk.stem.snowball import *
 from nltk.stem.porter import *
+from nltk.stem import WordNetLemmatizer
 from nltk.corpus import stopwords
 import pandas as pd
 
@@ -25,23 +26,32 @@ def processText(text):
     #tokenize by words
     words = word_tokenize(text)
 
-    #For each word in the list check if it is a stop word
+    For each word in the list check if it is a stop word
     for w in words:
         if w in stopwords.words('english'):
             words.remove(w)
 
+
     #instance of a stemmer
     #stemmer = SnowballStemmer("english")
-    stemmer = PorterStemmer()
-    stemWords = []
+    #stemmer = PorterStemmer()
+    #stemWords = []
 
 
     #iterate over all tokenized words to stem and store in list
-    for t in words:
-        stemWords.append(stemmer.stem(t))
+    #for t in words:
+    #    stemWords.append(stemmer.stem(t))
 
-        #return the list of tokenized stem words of the text passed to the method
-    return stemWords
+    #Lemmatize words and store in list
+    lemmatizer = nltk.WordNetLemmatizer()
+    lemWords = []
+    for w in words:
+        lemWords.append(lemmatizer.lemmatize(w))
+
+
+    #return the list of tokenized stem words of the text passed to the method
+    #return stemWords
+    return lemWords
 
 
 # This method takes a single string word checks it against
