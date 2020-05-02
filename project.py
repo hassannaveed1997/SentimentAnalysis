@@ -1,33 +1,42 @@
+from nltk.stem import WordNetLemmatizer
+from nltk.tokenize import word_tokenize
 from tkinter import *
 import pickle
 from sklearn.linear_model import LogisticRegression
 from sklearn.feature_extraction.text import CountVectorizer
-from nltk.stem.snowball import SnowballStemmer
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 #reads in the vectorized features and the logitic regression model
+
 (cv,lr)  = pickle.load(open('LR_model.pickle', 'rb')) 
-stemmed = True
-stemmer = SnowballStemmer("english")
 
-#All the information to train the model can be inserted here.
-def trainModel():
 
-	return
+def processText(text):
 
+    #tokenize by words
+    words = word_tokenize(text)
+
+    #Lemmatize words and store in list
+    lemmatizer = WordNetLemmatizer()
+    
+    #modify each word to its lemmed version and lowercase it.
+    for i in range(len(words)):
+        words[i] = lemmatizer.lemmatize(words[i].lower())
+
+    text = ' '.join(words)
+    #return lemmed Words
+    return text
+
+
+#process the text thsat is input in the model
 
 #Takes in the text and an integer reprenting which model to use.
 #Returns the prediction of 1 (positive) or -1 (negative) depending on the sentiment
 def analyzeSentiment(text,model):
 	pos_prob = 0 #probability of being positive
-	if stemmed == True:
-		#instance of a stemmer
-	    words = text.split()
-
-	    #iterate over all tokenized texts to stem and store in list
-	    for i in range(len(words)):
-	        words[i] = stemmer.stem(words[i])
-
-	    text = ' '.join(words)
+	
+	#process the text to make it the same as the model
+	text = processText(text)
 	
 	print('sentiment analyszed on \"' + text + "\" and model is: " + model)
 
@@ -50,6 +59,7 @@ def analyzeSentiment(text,model):
 		message.configure(background='indian red')
 	
 	return
+
 
 #when the enter button is pressed in the text
 def buttonPressed(event):
