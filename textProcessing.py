@@ -34,25 +34,29 @@ def processText(text):
 
 
     #instance of a stemmer
-    #stemmer = SnowballStemmer("english")
+    stemmer = SnowballStemmer("english")
     #stemmer = PorterStemmer()
-    #stemWords = []
+    stemWords = []
 
 
     #iterate over all tokenized words to stem and store in list
-    #for t in words:
-    #    stemWords.append(stemmer.stem(t))
+    for t in words:
+        stemWords.append(stemmer.stem(t))
 
-    #Lemmatize words and store in list
-    lemmatizer = WordNetLemmatizer()
-    lemWords = []
-    for w in words:
-        lemWords.append(lemmatizer.lemmatize(w))
+    # #Lemmatize words and store in list
+    # #lemmatizer = WordNetLemmatizer()
+    # #lemWords = []
+    # #for w in words:
+    # #   lemWords.append(lemmatizer.lemmatize(w))
+    # lemmatizer = WordNetLemmatizer()
+    # lemWords = []
+    # for w in words:
+    #     lemWords.append(lemmatizer.lemmatize(w))
 
 
     #return the list of tokenized stem words of the text passed to the method
-    #return stemWords
-    return lemWords
+    return stemWords
+    #return lemWords
 
 
 # This method takes a single string word checks it against
