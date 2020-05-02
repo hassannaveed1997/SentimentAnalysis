@@ -2,6 +2,7 @@
 Sentiment analysis on text messages
 
 If you have downloaded the pickle files, you can skip straight to step3. If the files need to be generated, follow step one and two.
+
 STEP 1) Preprocessing:
 Run textProcessing.py from the command line using:
   python3 textProcessing.py
