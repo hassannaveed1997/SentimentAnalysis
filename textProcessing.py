@@ -2,7 +2,8 @@
 ###################### USING NLTK LIBRARY #############################
 #######################################################################
 from nltk.tokenize import word_tokenize
-from nltk.stem.snowball import SnowballStemmer
+from nltk.stem.snowball import *
+from nltk.stem.porter import *
 from nltk.corpus import stopwords
 import pandas as pd
 
@@ -21,7 +22,7 @@ def processText(text):
             textList.remove(t)
     text = ' '.join(textList)
 
-	#tokenize by words
+    #tokenize by words
     words = word_tokenize(text)
 
     #For each word in the list check if it is a stop word
@@ -30,15 +31,16 @@ def processText(text):
             words.remove(w)
 
     #instance of a stemmer
-    stemmer = SnowballStemmer("english")
+    #stemmer = SnowballStemmer("english")
+    stemmer = PorterStemmer()
     stemWords = []
 
 
     #iterate over all tokenized words to stem and store in list
     for t in words:
-    	stemWords.append(stemmer.stem(t))
+        stemWords.append(stemmer.stem(t))
 
-    	#return the list of tokenized stem words of the text passed to the method
+        #return the list of tokenized stem words of the text passed to the method
     return stemWords
 
 
