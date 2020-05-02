@@ -70,8 +70,10 @@ features = features.sort_values(by=['coef'])
 print(features.head(5))
 print(features.tail(5))
 
+if not os.path.exists("pickled_models"):
+	os.makedirs("pickled_models")
 
-pickle.dump((cv,lr), open('LR_model.pickle', 'wb'))
+pickle.dump((cv,lr), open('pickled_models/LR_model.pickle', 'wb'))
 #loaded_model = pickle.load(open(filename, 'rb'))
 
 
