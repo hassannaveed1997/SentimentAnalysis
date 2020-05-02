@@ -14,14 +14,19 @@ def processText(text):
     for i in range(len(textList)):
         textList[i] = textList[i].lower()
 
-    #removes Stop words
+    #remove usernames, email addresses, websites and hastags
     for t in textList:
-        if (removeStopWords(t)):
+        if (deepClean(t)):
             textList.remove(t)
     text = ' '.join(textList)
 
-    #tokenize by words
+	#tokenize by words
     words = word_tokenize(text)
+
+    #For each word in the list check if it is a stop word
+    for w in words:
+        if w in stopwords.words('english'):
+            words.remove(w)
 
     #instance of a stemmer
     stemmer = SnowballStemmer("english")
@@ -30,9 +35,9 @@ def processText(text):
 
     #iterate over all tokenized words to stem and store in list
     for t in words:
-        stemWords.append(stemmer.stem(t))
+    	stemWords.append(stemmer.stem(t))
 
-        #return the list of tokenized stem words of the text passed to the method
+    	#return the list of tokenized stem words of the text passed to the method
     return stemWords
 
 
@@ -41,16 +46,13 @@ def processText(text):
 # any useful information regarding the sentiment of the text.
 # returns True if word is an email address, username, hashtag or 
 # website else returns False.
-def removeStopWords(word):
+def deepClean(word):
 
     # List of substrings to check if present in the word:
     # '@',".edu", ".com" may represent usernames and email addresses 
     # '#' represents hastags for social media 
     # 'www.', "https://", ".edu", ".com" may represent websites
-    # increased the list by adding stop words from the nltk stop words function
-    # The nltk stopwords had negations such as not, nor, won't which are not
-    # considered stopwords in this method
-    cleaners = ["@", "#", "www.", "Www.", "https://", "Https://" ,  ".edu", ".com", 'i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves', 'you', "you're", "you've", "you'll", "you'd", 'your', 'yours', 'yourself', 'yourselves', 'he', 'him', 'his', 'himself', 'she', "she's", 'her', 'hers', 'herself', 'it', "it's", 'its', 'itself', 'they', 'them', 'their', 'theirs', 'themselves', 'what', 'which', 'who', 'whom', 'this', 'that', "that'll", 'these', 'those', 'am', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'having', 'do', 'does', 'did', 'doing', 'a', 'an', 'the', 'and', 'but', 'if', 'or', 'because', 'as', 'until', 'while', 'of', 'at', 'by', 'for', 'with', 'about', 'against', 'between', 'into', 'through', 'during', 'before', 'after', 'above', 'below', 'to', 'from', 'up', 'down', 'in', 'out', 'on', 'off', 'over', 'under', 'again', 'further', 'then', 'once', 'here', 'there', 'when', 'where', 'why', 'how', 'all', 'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such','only', 'own', 'same', 'so', 'than', 'too', 'very', 's', 't', 'can', 'will', 'just','ll', 'm', 'o', 're', 've', 'y', 'ma']
+    cleaners = ["@", "#", "www.", "Www.", "https://", "Https://" ,  ".edu", ".com"]
 
     #check each subtring if contained in word
     for c in cleaners:
