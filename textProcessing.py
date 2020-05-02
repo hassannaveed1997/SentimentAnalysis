@@ -52,7 +52,7 @@ def deepClean(word):
     # '@',".edu", ".com" may represent usernames and email addresses 
     # '#' represents hastags for social media 
     # 'www.', "https://", ".edu", ".com" may represent websites
-    cleaners = ["@", "#", "www.", "Www.", "https://", "Https://" ,  ".edu", ".com"]
+    cleaners = ["@", "#", "www.", "Www.", "https://", "Https://" ,"http" ,".edu", ".com"]
 
     #check each subtring if contained in word
     for c in cleaners:
