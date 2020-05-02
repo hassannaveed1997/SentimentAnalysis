@@ -1,7 +1,18 @@
 # SentimentAnalysis
 Sentiment analysis on text messages
 
+
+
+STEP 0) Preparation
+Download all the files provided.
+
 If you have downloaded the pickle files, you can skip straight to step3. If the files need to be generated project.py will result in an error, you will need to follow step one and two.
+
+Ensure the following libraries are installed/accessible:
+nltk
+pandas
+sklearn
+pickle
 
 STEP 1) Preprocessing:
 Run textProcessing.py from the command line using:
