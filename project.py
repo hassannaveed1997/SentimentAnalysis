@@ -2,9 +2,12 @@ from tkinter import *
 import pickle
 from sklearn.linear_model import LogisticRegression
 from sklearn.feature_extraction.text import CountVectorizer
+from nltk.stem.snowball import SnowballStemmer
 
 #reads in the vectorized features and the logitic regression model
 (cv,lr)  = pickle.load(open('LR_model.pickle', 'rb')) 
+stemmed = True
+stemmer = SnowballStemmer("english")
 
 #All the information to train the model can be inserted here.
 def trainModel():
@@ -12,16 +15,27 @@ def trainModel():
 	return
 
 
-#Takes in the word and an integer reprenting which model to use.
+#Takes in the text and an integer reprenting which model to use.
 #Returns the prediction of 1 (positive) or -1 (negative) depending on the sentiment
-def analyzeSentiment(word,model):
-	print('sentiment analyszed on \"' + word + "\" and model is: " + model)
+def analyzeSentiment(text,model):
 	pos_prob = 0 #probability of being positive
+	if stemmed == True:
+		#instance of a stemmer
+	    words = text.split()
+
+	    #iterate over all tokenized texts to stem and store in list
+	    for i in range(len(words)):
+	        words[i] = stemmer.stem(words[i])
+
+	    text = ' '.join(words)
+	
+	print('sentiment analyszed on \"' + text + "\" and model is: " + model)
+
 
 	if model == 'Logistic':
 
 		print('opened logistic regression')
-		input_text = [word] #for some reason count vectorization requires a list
+		input_text = [text] #for some reason count vectorization requires a list
 		input_text_vect = cv.transform(input_text)
 		pos_prob = lr.predict_proba(input_text_vect)[0][1]
 		print('probability of positive is: ' + str(pos_prob))
