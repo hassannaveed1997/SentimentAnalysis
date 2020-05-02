@@ -5,10 +5,14 @@ from nltk.tokenize import word_tokenize
 from nltk.stem.snowball import *
 from nltk.stem.porter import *
 from nltk.stem import WordNetLemmatizer
-from nltk.corpus import stopwords
 import pandas as pd
-from nltk.corpus import stopwords
 
+#from nltk.corpus import stopwords
+
+# processText takes in a string as it's parameter 
+# removes stopwords such as usernames, email addresses,
+# websites and hashtags and returns a tokenized and 
+# stemmed list of words from the text.
 def processText(text):
 
     # make a list of words split with spaces
@@ -27,35 +31,40 @@ def processText(text):
     #tokenize by words
     words = word_tokenize(text)
 
-    #For each word in the list check if it is a stop word
+    #For each word in the list check if it is a stop word using nltk function
+    #resulted in depreciated performace so not being used
     #for w in words:
     #    if w in stopwords.words('english'):
     #        words.remove(w)
 
 
-    #instance of a stemmer
-    stemmer = SnowballStemmer("english")
-    #stemmer = PorterStemmer()
-    stemWords = []
+    #instance of a Snowball stemmer
+    #was tested. performed worse than Porter stemmer
+    #stemmer = SnowballStemmer("english")
+    
+    #instance of a Porter stemmer
+    stemmer = PorterStemmer()
 
+    stemWords = []
 
     #iterate over all tokenized words to stem and store in list
     for t in words:
         stemWords.append(stemmer.stem(t))
 
-    # #Lemmatize words and store in list
-    # #lemmatizer = WordNetLemmatizer()
-    # #lemWords = []
-    # #for w in words:
-    # #   lemWords.append(lemmatizer.lemmatize(w))
+    #return the list of tokenized stem words of the text passed to the method
+    return stemWords
+
+
+    # Lemmatize words and store in list
+    # Lemmatization was tested, performed worse than stemming
+    # lemmatizer = WordNetLemmatizer()
+    # lemWords = []
+    # for w in words:
+    #    lemWords.append(lemmatizer.lemmatize(w))
     # lemmatizer = WordNetLemmatizer()
     # lemWords = []
     # for w in words:
     #     lemWords.append(lemmatizer.lemmatize(w))
-
-
-    #return the list of tokenized stem words of the text passed to the method
-    return stemWords
     #return lemWords
 
 
@@ -81,6 +90,8 @@ def deepClean(word):
     #else return False
     return False
 
+
+
 #read data from .csv file
 dataset = pd.read_csv(r'training.1600000.processed.noemoticon.csv',encoding = "ISO-8859-1")
 
@@ -92,7 +103,7 @@ df = df[df.columns[cols]]
 
 df.columns = ["Sentiment", "Tweet"]
 
-#Hassan:
+
 #The following part is only intended to change the input format for the logistic regression
 #It uses the above methods for processing the data, then saves it.
 #The resulting dataframe contains two columns:
