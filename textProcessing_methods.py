@@ -1,7 +1,5 @@
 from nltk.tokenize import word_tokenize
 from nltk.stem.snowball import *
-#from nltk.stem.porter import *
-#from nltk.stem import WordNetLemmatizer
 #from nltk.corpus import stopwords
 
 # processText takes in a string as it's parameter 
@@ -35,10 +33,6 @@ def processText(text):
 
     #instance of a Snowball stemmer
     stemmer = SnowballStemmer("english")
-    
-    # instance of a Porter stemmer
-    # was tested. performed worse than Porter stemmer
-    #stemmer = PorterStemmer()
 
     stemWords = []
 
@@ -48,19 +42,6 @@ def processText(text):
 
     #return the list of tokenized stem words of the text passed to the method
     return stemWords
-
-
-    # Lemmatize words and store in list
-    # Lemmatization was tested, performed worse than stemming
-    # lemmatizer = WordNetLemmatizer()
-    # lemWords = []
-    # for w in words:
-    #    lemWords.append(lemmatizer.lemmatize(w))
-    # lemmatizer = WordNetLemmatizer()
-    # lemWords = []
-    # for w in words:
-    #     lemWords.append(lemmatizer.lemmatize(w))
-    #return lemWords
 
 
 # This method takes a single string word checks it against
