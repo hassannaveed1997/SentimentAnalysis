@@ -13,6 +13,11 @@ nltk
 pandas
 sklearn
 pickle
+csv
+numpy
+os
+re
+tkinter
 
 STEP 1) Preprocessing:
 
