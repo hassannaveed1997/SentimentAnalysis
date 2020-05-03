@@ -57,5 +57,5 @@ On the right is a drop down menu of models.
 
 -If the sentiment is predicted to be positive, the text box will turn blue. If negative, it will turn red
 
--For Logistic and Naive Bayes models, the probability will also be printed in the terminal. (SVM only classifies)
+-For Logistic and Naive Bayes models, the probability will also be printed in the terminal. SVM only classifies 0 for negative and 1 for positive.
 
