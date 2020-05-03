@@ -44,7 +44,7 @@ nb = MultinomialNB()
 nb.fit(Train_text_vect, Train_values)
 score = accuracy_score(Test_values, nb.predict(Test_text_vect))
 
-print(score)
+print("Accuracy score: ",score)
 
 # Create a dataframe containing coefficients from the regression 
 # and features from the count vectorizor for analysis.
