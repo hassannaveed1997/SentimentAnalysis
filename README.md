@@ -1,5 +1,6 @@
 # SentimentAnalysis
 (For detailed description read PROJECT REPORT.pdf!)
+
 Sentiment analysis on text messages. Classifies into positive or negative and has algorithm options between Logistic, SVM and Naive Bayes. Example:
 
 ![example image](/example.png)
